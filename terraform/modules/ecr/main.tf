@@ -1,4 +1,3 @@
-# modules/ecr/variables.tf
 
 resource "aws_ecr_repository" "server" {
   name                 = "${var.project_name}-repo/server"

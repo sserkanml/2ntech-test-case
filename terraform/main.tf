@@ -1,4 +1,3 @@
-# main.tf
 provider "aws" {
   region = "us-west-2"
 }
@@ -33,7 +32,6 @@ module "ecr" {
 }
 
 
-# Helm provider'ı ekleyin
 provider "helm" {
   kubernetes {
     host                   = module.eks.cluster_endpoint
@@ -46,7 +44,6 @@ provider "helm" {
   }
 }
 
-# EBS CSI Driver'ı yükleyin
 resource "helm_release" "aws_ebs_csi_driver" {
   name       = "aws-ebs-csi-driver"
   namespace  = "kube-system"

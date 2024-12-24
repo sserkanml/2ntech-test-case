@@ -86,3 +86,5 @@ resource "aws_security_group_rule" "eks_cluster_ingress" {
   cidr_blocks       = [var.vpc_cidr]
   security_group_id = aws_security_group.eks_cluster.id
 }
+
+

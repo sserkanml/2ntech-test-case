@@ -1,7 +1,5 @@
 
 
-# modules/iam/main.tf
-# EKS Cluster IAM Role
 resource "aws_iam_role" "cluster" {
   name = "${var.project_name}-eks-cluster-role"
 
@@ -19,7 +17,6 @@ resource "aws_iam_role" "cluster" {
   })
 }
 
-# Attach required policies to cluster role
 resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSClusterPolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
   role       = aws_iam_role.cluster.name
@@ -30,7 +27,6 @@ resource "aws_iam_role_policy_attachment" "cluster_AmazonEKSVPCResourceControlle
   role       = aws_iam_role.cluster.name
 }
 
-# EKS Node Group IAM Role
 resource "aws_iam_role" "node_group" {
   name = "${var.project_name}-eks-node-group-role"
 
@@ -76,7 +72,6 @@ resource "aws_iam_role_policy_attachment" "ebs_csi" {
   role       = aws_iam_role.ebs_csi.name
 }
 
-# Attach required policies to node group role
 resource "aws_iam_role_policy_attachment" "node_AmazonEKSWorkerNodePolicy" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy"
   role       = aws_iam_role.node_group.name
@@ -92,7 +87,6 @@ resource "aws_iam_role_policy_attachment" "node_AmazonEC2ContainerRegistryReadOn
   role       = aws_iam_role.node_group.name
 }
 
-# Custom policy for CloudWatch logging
 resource "aws_iam_role_policy" "cloudwatch_logs" {
   name = "${var.project_name}-eks-cloudwatch-logs-policy"
   role = aws_iam_role.node_group.name

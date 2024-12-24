@@ -1,7 +1,5 @@
 
 
-# modules/eks/main.tf
-# EKS Cluster
 resource "aws_eks_cluster" "main" {
   name     = "${var.project_name}-eks"
   role_arn = var.cluster_role_arn
@@ -13,7 +11,6 @@ resource "aws_eks_cluster" "main" {
     endpoint_public_access  = true
   }
 
-  # Enable the EKS control plane logging
   enabled_cluster_log_types = [
     "api",
     "audit",
@@ -22,7 +19,6 @@ resource "aws_eks_cluster" "main" {
     "scheduler"
   ]
 
-  # Ensure that IAM Role permissions are created before and deleted after EKS Cluster handling
   depends_on = [
     aws_cloudwatch_log_group.eks_cluster
   ]
@@ -32,13 +28,11 @@ resource "aws_eks_cluster" "main" {
   }
 }
 
-# CloudWatch Log Group for EKS Cluster
 resource "aws_cloudwatch_log_group" "eks_cluster" {
   name              = "/aws/eks/${var.project_name}-eks/cluster"
   retention_in_days = 7
 }
 
-# EKS Node Group
 resource "aws_eks_node_group" "main" {
   cluster_name    = aws_eks_cluster.main.name
   node_group_name = "${var.project_name}-node-group"
@@ -57,14 +51,12 @@ resource "aws_eks_node_group" "main" {
     max_unavailable = 1
   }
 
-  # Configure auto-scaling
   capacity_type = "ON_DEMAND"
 
   labels = {
     role = "general"
   }
 
-  # Ensure that IAM Role permissions are created before and deleted after EKS Node Group handling
   depends_on = [
     aws_eks_cluster.main
   ]
@@ -74,7 +66,6 @@ resource "aws_eks_node_group" "main" {
   }
 }
 
-# Kubernetes provider configuration
 data "aws_eks_cluster_auth" "cluster" {
   name = aws_eks_cluster.main.name
 }
