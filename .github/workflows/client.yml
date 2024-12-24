@@ -37,7 +37,7 @@ jobs:
         IMAGE_TAG: ${{ github.sha }}
       working-directory: ./client
       run: |
-        docker build -t --build-arg VITE_SERVER_URL=${{ secrets.BACKEND_URL }} $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build --build-arg VITE_SERVER_URL=${{ secrets.BACKEND_URL }} -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
     - name: Update kube config
