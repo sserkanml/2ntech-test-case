@@ -2,9 +2,10 @@ name: Frontend CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
       - 'client/**'
+    workflow_dispatch:
 
 env:
   AWS_REGION: us-west-2
