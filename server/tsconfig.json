@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+      "target": "es2018",
+      "module": "CommonJS",
+      "lib": ["es2018", "esnext.asynciterable"],
+      "skipLibCheck": true,
+      "strict": true,
+      "strictPropertyInitialization": true,
+      "moduleResolution": "node",
+      "allowSyntheticDefaultImports": true,
+      "esModuleInterop": true,
+      "plugins": [{ "transform": "typescript-transform-paths" }],
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"],
+        "@controllers/*": ["src/controllers/*"],
+        "@models/*": ["src/models/*"],
+        "@routes/*": ["src/routes/*"],
+        "@middleware/*": ["src/middleware/*"],
+      },
+      "outDir": "./dist",
+      "rootDir": ".",
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules", "dist"]
+  }

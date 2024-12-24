@@ -1,0 +1,63 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME_FILE=/run/secrets/mongo_username
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongo_password
+      - MONGO_INITDB_DATABASE_FILE=/run/secrets/mongo_database
+    restart: always
+    networks:
+      - backend-network
+    secrets:
+      - mongo_username
+      - mongo_password
+      - mongo_database
+
+  frontend:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 3001:80
+    expose:
+      - 80
+    restart: always
+    container_name: frontend
+    networks:
+      - backend-network
+    depends_on:
+      - backend
+
+  backend:
+    build: 
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    restart: always
+    networks:
+      - backend-network
+    container_name: backend
+    depends_on:
+      - mongodb
+
+networks:
+  backend-network:
+    driver: bridge
+
+secrets:
+  mongo_username:
+    file: ./secrets/mongo_username.secret
+  mongo_password:
+    file: ./secrets/mongo_password.secret
+  mongo_database:
+    file: ./secrets/mongo_database.secret

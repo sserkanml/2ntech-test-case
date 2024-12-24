@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-backend
+  labels:
+    app: todo-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: todo-backend
+  template:
+    metadata:
+      labels:
+        app: todo-backend
+    spec:
+      containers:
+      - name: todo-backend
+        image: 904382896645.dkr.ecr.us-west-2.amazonaws.com/mern-app-repo/server:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PORT
+          value: "3000"
+        - name: MONGO_URI
+          valueFrom:
+            secretKeyRef:
+              name: todo-backend-secrets
+              key: mongo-uri
+        - name: JWT_EXPIRES_IN
+          value: "1d"
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: todo-backend-secrets
+              key: jwt-secret
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
