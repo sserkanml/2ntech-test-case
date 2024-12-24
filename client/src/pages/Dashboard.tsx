@@ -98,7 +98,7 @@ const Dashboard = () => {
                         Merhaba, <span className="font-semibold">{user.name}</span>
                         <button
                     onClick={handleLogout}
-                    className="bg-red-500 ml-4 text-white py-1 px-4 rounded-lg hover:bg-red-600"
+                    className="bg-blue-500 ml-4 text-white py-1 px-4 rounded-lg hover:bg-red-600"
                 >
                     Çıkış Yap
                 </button>
